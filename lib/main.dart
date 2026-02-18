@@ -21,7 +21,8 @@ class FinanTrackApp extends StatelessWidget {
           primary: const Color(0xFF00695C),
           secondary: const Color(0xFF00897B),
           surface: Colors.white,
-          background: const Color(0xFFF4F6F8),
+          // 'background' eliminado para corregir el warning de deprecación.
+          // El fondo ya se maneja con scaffoldBackgroundColor arriba.
         ),
         appBarTheme: const AppBarTheme(
           backgroundColor: Colors.white,
@@ -69,7 +70,7 @@ class Income {
 // MOCK DATA
 // ---------------------------------------------------------------------------
 
-// TODO: Replace mock list with FirebaseFirestore.instance.collection('incomes')
+// NOTE: Replace mock list with FirebaseFirestore.instance.collection('incomes')
 final List<Income> mockIncomes = [
   Income(id: '1', source: 'Salario', amount: 2500.00, date: DateTime(2026, 2, 15)),
   Income(id: '2', source: 'Salario', amount: 2500.00, date: DateTime(2026, 1, 30)),
@@ -106,7 +107,7 @@ class IngresosScreen extends StatelessWidget {
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: 2, // Index 2 is "Ingresos"
         onTap: (index) {
-          // Navigation logic would go here
+          // Navigation logic here
         },
         items: const [
           BottomNavigationBarItem(
@@ -229,16 +230,18 @@ class IncomeCard extends StatelessWidget {
                     _ActionButton(
                       icon: Icons.edit_outlined,
                       color: const Color(0xFF00897B),
+                      bgColor: const Color(0xFFE0F2F1), // Verde muy claro sólido
                       onTap: () {
-                        // TODO: Implement Edit Logic
+                        // Logic to edit
                       },
                     ),
                     const SizedBox(width: 12),
                     _ActionButton(
                       icon: Icons.delete_outline,
-                      color: const Color(0xFFE57373), // Rojo suave para eliminar
+                      color: const Color(0xFFE57373),
+                      bgColor: const Color(0xFFFFEBEE), // Rojo muy claro sólido
                       onTap: () {
-                        // TODO: Implement Delete Logic
+                        // Logic to delete
                       },
                     ),
                   ],
@@ -255,11 +258,13 @@ class IncomeCard extends StatelessWidget {
 class _ActionButton extends StatelessWidget {
   final IconData icon;
   final Color color;
+  final Color bgColor;
   final VoidCallback onTap;
 
   const _ActionButton({
     required this.icon,
     required this.color,
+    required this.bgColor,
     required this.onTap,
   });
 
@@ -269,7 +274,7 @@ class _ActionButton extends StatelessWidget {
       width: 36,
       height: 36,
       decoration: BoxDecoration(
-        color: const Color(0xFF00897B).withOpacity(0.1),
+        color: bgColor, 
         shape: BoxShape.circle,
       ),
       child: InkWell(
